@@ -16,6 +16,27 @@ class HashTable:
                 i += 1
             self.table[(index + i) % self.size] = (key, value)
 
+    def delete(self, key):
+        hashvalue = self.hashfunction(key, len(self.slots))
+        flag = False
+        check = 0
+        while check != 1:
+            if self.slots[hashvalue] == key:
+                self.slots[hashvalue] = None
+                self.data[hashvalue] = None
+                self.indices[hashvalue] = -1
+                check = 1
+                flag = True
+                break
+            else:
+                if self.indices[hashvalue] != -1:
+                    oldhash = hashvalue
+                    hashvalue = self.indices[hashvalue]
+                    self.indices[oldhash] = -1
+                else:
+                    check = 1
+                    break
+                
     def search(self, key):
         index = self.hash_function(key)
         if self.table[index] is not None:
