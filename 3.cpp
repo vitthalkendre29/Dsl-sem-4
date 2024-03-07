@@ -23,7 +23,7 @@ private:
         } else {
             root->right = insert(root->right, value);
         }
-        return root;
+        return root; 
     }
 
     void inorderTraversal(Node* root) {
@@ -88,11 +88,11 @@ public:
         return contmaxnode(root);
     }
 
-    int minValue() {
+    int findMinValue() {
         return findMinValue(root);
     }
 
-    void swapLR() {
+    void swapLeftRight() {
         swapLeftRight(root);
     }
 
@@ -118,18 +118,24 @@ int main() {
     cout << tree.longestPathLength()<< endl;
     
     cout << "Minimum value in the tree: ";
-    cout << tree.minValue() << endl;
+    cout << tree.findMinValue() << endl;
 
     cout << "Before swapping left and right pointers:" << endl;
-    tree.swapLR();
+    tree.inorderTraversal();
+    
+    
+    tree.swapLeftRight();
 
     cout << "After swapping left and right pointers:" << endl;
     tree.inorderTraversal();
 
     cout<<"\nenter value to be searched"<<endl;
     cin>>mk;
-    cout<<"element is ";
-    cout << (tree.search(mk) ? "Found" : "Not Found");
+    if(tree.search(mk)==1){
+        cout<<"element is found"<<endl;
+    }else{
+        cout<<"element is not found"<<endl;
+    }
 
 
     return 0;
