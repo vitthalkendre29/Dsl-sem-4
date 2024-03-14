@@ -1,51 +1,84 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
 
-class node{
-    public:
-    node *left;
-    node *right;
-    int data;
-};
+const int Max = 15;
 
-class binarytree{
-    public:
-    node* root;
-    void insert(node*,node*);
-    void inordertraversal(node*);
-    binarytree(){root=NULL;}
-};
+class Graph {
+public:
+    int numvertices;
+    int adjmatrix[Max][Max];
 
-void binarytree:: insert(node*root,node*temp){
-    if(root==NULL){
-        root=temp;
-    }
-    if (root->data>temp->data){
-        if(root->right==NULL){
-            root->right=temp;
-        }else{
-            insert(root->right,temp);
+    Graph(int numvertices) {
+        this->numvertices = numvertices;
+        for (int i = 1; i <= numvertices; i++) {
+            for (int j = 1; j <= numvertices; j++) {
+                adjmatrix[i][j] = 1000;
+            }
         }
     }
-    if (root->data<temp->data){
-        if(root->left==NULL){
-            root->left=temp;
-        }else{
-            insert(root->left,temp);
+
+    void insertedge(int row, int col, int weight) {
+        adjmatrix[row][col] = weight;
+        for(int i=1;i<=numvertices;i++) {
+            adjmatrix[i][i] = 0;
         }
     }
-}
 
-void binarytree::inordertraversal(node* root){
-    if(root==NULL){
-        return;
-    }else{
-        inordertraversal(root->left);
-        cout<<root->data<<endl;
-        inordertraversal(root->right);
+    void printgraph() {
+        for (int i = 1; i <= numvertices; i++) {
+            cout << "vertex " << i << " is connected to :";
+            for (int j = 1; j <= numvertices; j++) {
+                if (adjmatrix[i][j] != 1000) {
+                    cout << j << " its weight is " << adjmatrix[i][j] << "    ";
+                }
+            }
+            cout << endl;
+        }
     }
-}
 
-int main(){
+    void print() {
+        for (int i = 1; i <= numvertices; i++) {
+            for (int j = 1; j <= numvertices; j++) {
+                cout << adjmatrix[i][j] << "   ";
+            }
+            cout << endl;
+        }
+    }
+};
 
+int main() {
+    int numVertices = 4;
+    Graph graph(numVertices);
+    graph.insertedge(1, 2, 3);
+    graph.insertedge(1, 4, 7);
+    graph.insertedge(4, 1, 2);
+    graph.insertedge(2, 1, 8);
+    graph.insertedge(2, 3, 2);
+    graph.insertedge(3, 1, 5);
+    graph.insertedge(3, 4, 1);
+
+
+
+
+
+    for(int k=1;k<=numVertices;k++)
+        {
+            for(int i=1;i<=numVertices;i++)
+                {
+                    for(int j=1;j<=numVertices;j++)
+                        {
+                            graph.adjmatrix[i][j]=min(graph.adjmatrix[i][j],graph.adjmatrix[i][k]+graph.adjmatrix[k][j]);
+                            
+                        }
+                }
+        }
+    for(int i=1;i<=numVertices;i++){
+        for(int j=1;j<=numVertices;j++)
+        {
+            cout<<graph.adjmatrix[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+
+    return 0;
 }
