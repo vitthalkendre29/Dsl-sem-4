@@ -2,7 +2,7 @@
 #include<cstdlib>
 using namespace std;
 
-class Node {
+struct Node {
     string key;
     string value;
     Node* left;
@@ -17,7 +17,7 @@ private:
 
     Node* insertRecursively(Node* node, string key, string value) {
         if (node == nullptr) {
-            return  node*(key, value);
+            return new Node(key, value);
         }
         if (key < node->key) {
             node->left = insertRecursively(node->left, key, value);
@@ -83,7 +83,7 @@ int main() {
         bst.insert(word,meaning);
     }
 
-
+    
     bst.inorderTraversal();
 
     return 0;
